@@ -1,0 +1,93 @@
+plugins {
+    id 'groovy'
+    id 'maven'
+
+    id 'idea'
+    id 'eclipse'
+
+    id 'net.minecrell.licenser' version '0.2.1'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+group = 'net.fabricmc'
+archivesBaseName = project.name.toLowerCase()
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'fabric'
+        url = 'http://maven.fabricmc.net/'
+    }
+}
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+
+    compile 'com.google.guava:guava:19.0'
+    compile 'net.fabricmc:blending-jar:0.1.1.6'
+}
+
+license {
+    header file('HEADER.txt')
+    include '**/*.groovy'
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            if (project.hasProperty('mavenPass')) {
+                repository(url: 'http://mavenupload.modmuss50.me/') {
+                    authentication(userName: 'buildslave', password: project.getProperty('mavenPass'))
+                }
+            } else {
+                repository(url: 'file:///var/www/maven/')
+            }
+
+            pom {
+                artifactId = project.archivesBaseName
+
+                project {
+                    name = project.name
+                    description = project.description
+                    packaging = 'jar'
+                    url = project.url
+
+                    scm {
+                        url = 'https://github.com/FabricMC/pomf-gradle'
+                        connection = 'scm:git:git@github.com:FabricMC/pomf-gradle.git'
+                        developerConnection = 'scm:git:git@github.com:FabricMC/pomf-gradle.git'
+                    }
+
+                    issueManagement {
+                        system = 'GitHub'
+                        url = 'https://github.com/FabricMC/pomf-gradle/issues'
+                    }
+
+                    licenses {
+                        license {
+                            name = 'Apache License 2.0'
+                            url = 'https://github.com/FabricMC/pomf-gradle/blob/master/LICENSE'
+                            distribution = 'repo'
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id = 'jamierocks'
+                            name = 'Jamie Mansfield'
+                            roles { role 'developer' }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.14.1'
+}
