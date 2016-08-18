@@ -16,6 +16,7 @@
 
 package net.fabricmc.gradle.pomf.util
 
+import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
@@ -28,5 +29,11 @@ class Constants {
      * The cache directory.
      */
     static final Path CACHE_DIRECTORY = Paths.get('.gradle/minecraft')
+
+    static {
+        if (!Files.exists(CACHE_DIRECTORY) && !Files.isDirectory(CACHE_DIRECTORY)) {
+            Files.createDirectory(CACHE_DIRECTORY)
+        }
+    }
 
 }
