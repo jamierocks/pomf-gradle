@@ -36,7 +36,7 @@ class FetchJarsTask extends DefaultTask {
 
     @TaskAction
     void doTask() {
-        Path versionPath = Constants.CACHE_DIRECTORY.resolve(extension.minecraft)
+        Path versionPath = Constants.MINECRAFT_CACHE_DIRECTORY.resolve(extension.minecraft)
         if (!Files.exists(versionPath) && !Files.isDirectory(versionPath)) {
             Files.createDirectory(versionPath)
         }

@@ -17,6 +17,7 @@
 package net.fabricmc.gradle.pomf
 
 import net.fabricmc.gradle.pomf.task.FetchJarsTask
+import net.fabricmc.gradle.pomf.task.MergeJarsTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -31,9 +32,18 @@ class PomfGradlePlugin implements Plugin<Project> {
             PomfGradleExtension pomfGradleExtension = extensions.create('pomf', PomfGradleExtension)
 
             task('fetchJars', type: FetchJarsTask)
+            task('mergeJars', type: MergeJarsTask) {
+                dependsOn 'fetchJars'
+            }
+            task('setupPomf') {
+                dependsOn 'mergeJars'
+            }
 
             afterEvaluate {
                 tasks.fetchJars.with {
+                    extension = pomfGradleExtension
+                }
+                tasks.mergeJars.with {
                     extension = pomfGradleExtension
                 }
             }

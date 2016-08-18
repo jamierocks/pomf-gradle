@@ -26,13 +26,13 @@ import java.nio.file.Paths
 class Constants {
 
     /**
-     * The cache directory.
+     * The Minecraft cache directory.
      */
-    static final Path CACHE_DIRECTORY = Paths.get('.gradle/minecraft')
+    static final Path MINECRAFT_CACHE_DIRECTORY = Paths.get('.gradle/minecraft')
 
     static {
-        if (!Files.exists(CACHE_DIRECTORY) && !Files.isDirectory(CACHE_DIRECTORY)) {
-            Files.createDirectory(CACHE_DIRECTORY)
+        if (!Files.exists(MINECRAFT_CACHE_DIRECTORY) && !Files.isDirectory(MINECRAFT_CACHE_DIRECTORY)) {
+            Files.createDirectory(MINECRAFT_CACHE_DIRECTORY)
         }
     }
 
